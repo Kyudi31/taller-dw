@@ -1,4 +1,5 @@
-const estudiante={
+// objetos que usaremos para el punto 4
+const estudiante={ 
     nombre: "Juan",
     apellido: "Arango",
     codigo: "001",
@@ -86,13 +87,13 @@ function agregarNota(estudiante, materia, nota){
         console.log("la nota no es valida el rango es de 0 a 5");
     }
     
-    console.log("notas completas nuevas: ", estudiante.notas);
+    console.log("notas completas nuevas: ", estudiante.notas); // imprimimos las notas nuevas despues de agregar otra
     
 }
 agregarNota(estudiante, "algebra", 4);
 console.log("notas agregadas correctamente");
 
-function datosEstudiante(estudiante){
+function datosEstudiante(estudiante){ //esta funcion imprime toda la informacion del estudiante de una manera mas organizada
     console.log ("codigo: " + estudiante.codigo  + "\n" + "nombre completo: " + nombreCompleto(estudiante) + "\n" + "semestre: " + estudiante.semestre
     + "\n" + "Promedio de materias: " + calcularPromedio(estudiante) + "\n" + "materias y notas: " + JSON.stringify(estudiante.notas) + "\n" + "estado: " + estaAprobado(estudiante));
 }
@@ -102,74 +103,69 @@ datosEstudiante(estudiante);
 
 //parte b
 
-function Curso(nombre, codigo, estudiantes){
+function Curso(nombre, codigo, estudiantes){ //esta funcion es un constructor de objetos para crear cursos con sus respectivas propiedades
     this.nombre = nombre;
     this.codigo = codigo;
     this.estudiantes = estudiantes || [];
 }
 
-const c1= new Curso("Programacion", "001", [])
+const c1= new Curso("Programacion", "001", []) //creamos un objeto curso con el constructor de objetos que creamos anteriormente
 
 function agregarEstudiante(curso, estudiante){
-    curso.estudiantes.push(estudiante);
+    curso.estudiantes.push(estudiante); //esta funcion agregamos estudiantes al curso de programacion
 }
 
 agregarEstudiante(c1, estudiante);
 agregarEstudiante(c1, estudiante2);
-agregarEstudiante(c1, estudiante3);
+agregarEstudiante(c1, estudiante3); //agregamos los 3 estudiantes al curso de programacion
 
-function listarEstudiantes(curso){
+function listarEstudiantes(curso){ //esta funcion imprime el nombre completo de cada estudiante del curso recorriendola con un for
     for (let estudiante of curso.estudiantes){
         console.log(nombreCompleto(estudiante));
     }
 }
 
-function calcularPromedioMateria(estudiante, curso){
-    let materia = curso.nombre.toLowerCase();
-
+function calcularPromedioMateria(estudiante, curso){ //esta funcion calcula el promedio de una materia especifica de un estudiante en un curso determinado
+    let materia = curso.nombre.toLowerCase(); //lower case para convertir el nombre del curso a minusculas y asi poder acceder a las notas de esa materia en el objeto estudiante
     let notas = estudiante.notas[materia];
-
     if (!notas){
         return 0;
     }
-
     let suma = 0;
-
     for (let nota of notas){
         suma += nota;
     }
-
-    return suma / notas.length;
+    return suma / notas.length; //sacamos el promedio con el acumulador suma y diviendolo por la longitud del array de notas de esa materia
 }
 
-function calcularPromedioCurso(curso){
+function calcularPromedioCurso(curso){ //esta funcion calcula el promedio de todo el curso recorriendo cada estudiante y sumando su promedio de la materia del curso para luego dividirlo por la cantidad de estudiantes y asi obtener el promedio general del curso
     let suma = 0;
     let cantidad = 0;
 
-    for (let estudiante of curso.estudiantes){
+    for (let estudiante of curso.estudiantes){ //recorremos cada estudiante del curso
         let promedio = calcularPromedioMateria(estudiante, curso);
 
         suma += promedio;
         cantidad++;
     }
 
-    return suma / cantidad;
+    return suma / cantidad; //sacamos el promedio general del curso con el acumulador suma y diviendolo por la cantidad de estudiantes
 }
-console.log("el promedio de el curso es:", calcularPromedioCurso(c1));
+console.log("el promedio de el curso es:", calcularPromedioCurso(c1)); //imprime el promedio general del curso de programacion
 
-function MejorPromedio(curso){
+function MejorPromedio(curso){ //esta funcion encuentra el estudiante con el mejor promedio en la materia del curso recorriendo cada estudiante y comparando su promedio con el promedio actual para encontrar al mejor estudiante
     let promedioActual = 0;
     let mejorEstudiante = null;
-    for (let estudiante of curso.estudiantes){
-        let promedio = calcularPromedioMateria(estudiante, curso);
-        if (promedio > promedioActual){
-            promedioActual = promedio;
+    for (let estudiante of curso.estudiantes){ //recorremos cada estudiante del curso
+        let promedio = calcularPromedioMateria(estudiante, curso); //calculamos el promedio de la materia del curso para cada estudiante
+        if (promedio > promedioActual){ //comparamos el promedio de cada estudiante con el promedio actual para encontrar al mejor estudiante
+            promedioActual = promedio; //si el promedio del estudiante es mayor que el promedio actual, actualizamos el promedio actual con el nuevo promedio y asignamos al mejor estudiante el estudiante actual
             mejorEstudiante = estudiante;
         }
     } return nombreCompleto(mejorEstudiante) + " con un promedio de: " + promedioActual;
 }
 
-console.log("el mejor estudiante del curso es: " + MejorPromedio(c1)); 
+console.log("el mejor estudiante del curso es: " + MejorPromedio(c1)); //imprime el nombre completo del mejor estudiante del curso de programacion junto con su promedio en la materia del curso
 
 //object key, values y entries
 console.log("keys")
